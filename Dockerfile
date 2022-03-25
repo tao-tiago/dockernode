@@ -5,7 +5,7 @@ RUN npm ci
 COPY . .
 
 FROM nginx
-EXPOSE 80
+EXPOSE 8080
 WORKDIR '/usr/share/nginx/html'
 COPY --from=builder /app .
 CMD [ "npm", "run", "start" ]
