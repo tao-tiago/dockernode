@@ -3,9 +3,8 @@ WORKDIR '/app'
 COPY package.json .
 RUN npm ci
 COPY . .
+RUN npm run build
 
 FROM nginx
-EXPOSE 8080
-WORKDIR '/usr/share/nginx/html'
-COPY --from=builder /app .
-CMD [ "npm", "run", "start" ]
+EXPOSE 80
+COPY --from=builder /app/build /usr/share/nginx/html
