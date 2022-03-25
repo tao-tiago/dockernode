@@ -1,10 +1,11 @@
 FROM node:16-alpine as builder
 WORKDIR '/app'
 COPY package.json .
-RUN npm install
+RUN npm ci
 COPY . .
-RUN npm run build
 
 FROM nginx
 EXPOSE 80
-COPY --from=builder /app/dist /usr/share/nginx/html
+WORKDIR '/usr/share/nginx/html'
+COPY --from=builder /app .
+CMD [ "npm", "run", "start" ]
